@@ -39,16 +39,16 @@ public int isTeammate(Person teammate)
 	//						year=team.year;
 	String make = "SELECT year FROM teams WHERE (";
 	QueryGenerator query = new QueryGenerator();
-	ArrayList<ArrayList<String>> years = query.getDistinctColumnWithConditionals({year}, conditionalColumn, conditionalValue, table)
+	//ArrayList<ArrayList<String>> years = query.getDistinctColumnWithConditionals({year}, conditionalColumn, conditionalValue, table)
 	for(int i=1;i<=6;i++)
 	{
 		make += "Last" + i + "='" + this.getLastName() + "'";
 		if(i<6)
-			make += " OR";
+			make += " OR ";
 		else
 			make+= ")";
-	}
-	String 
+	} 
+	System.out.println(make);
 	int year = -1;
 	return year;
 }

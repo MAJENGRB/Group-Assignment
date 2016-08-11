@@ -1,6 +1,7 @@
-import java.sql.*;   // Use classes in java.sql package
-import java.util.ArrayList;
+import java.sql.*; 
+import java.util.ArrayList;  // Use classes in java.sql package
 import java.io.*;
+import view.mainPage;
 //Note: This class grossly violated OO principles. This could probably be done more 
 //easily in manual SQL
 public class Setup {  
@@ -9,10 +10,11 @@ public class Setup {
 		conn = createConnection();
 	}
    public static void main(String[] args) throws Exception{
-     //updateFromCSV("TomDataBase.csv");
-	 //createTeamTable();
+     /*
+	   createMainTable();
+	   createTeamTable();
 	   QueryGenerator test = new QueryGenerator();
-	   /*
+	   
 	   ArrayList<String> test1 = test.getDistinctColumn("Piece", "piecerecords");
 	   for(int i=0; i<test1.size(); i++)
 	   {
@@ -25,12 +27,50 @@ public class Setup {
 		   System.out.println(test2.get(i).get(0) + " " + test2.get(i).get(1) + " " +
 				   test2.get(i).get(2) + test2.get(i).get(3));
 	   }
-	   */
-	  // populateTeamsTable();
+	   populateTeamsTable();
 	   ArrayList<ArrayList<String>> test4 = test.getTable("teams", 22);
 	   Team doge = new Team(test4.get(0));
 	   System.out.println(doge.getMembers().size());
 	   System.out.println(doge.toString());
+     
+	   
+	   
+     /*
+	   Team test = new Team();
+	   test.addMember(new Person("Gail", "MacColl", "violin"));
+	   test.addMember(new Person("Vera", "Snheider", "cello"));
+
+	   QueryController tester = new QueryController();
+           
+	   ArrayList<ArrayList<String>> doge = tester.checkForPlayerOverlaps(test);
+	   for(int i = 0; i< doge.size(); i++)
+	   {
+		   for(int j = 0; j < doge.get(i).size(); j++)
+		   {
+			   System.out.print(doge.get(i).get(j) + " ");
+		   }
+		   System.out.println(" " + i);
+	   }
+               ArrayList<Person> tits = tester.getRoster("11");
+        for(int i = 0; i<tits.size(); i++)
+        {
+            System.out.println(tits.get(i).toString());
+        }
+	    */
+        QueryController tester = new QueryController();	   
+
+        Person sarah = new Person("Carol", "Sheppard", "cello");
+	   Person barb = new Person("Barb", "Lambdin", "viola");
+	   Person gemma = new Person("Gemma", "Kuijpers", "violin");
+	   Person mike = new Person("Michael", "Lav", "violin");
+	   Team test = new Team();
+	   test.addMember(sarah);
+	   test.addMember(barb);
+	   test.addMember(gemma);
+	   test.addMember(mike);
+           test.setPiece(new Piece("K.387","Mozart",""));
+           System.out.println(tester.checkForPieceOverlaps(test).size());
+           new mainPage();
       }
    public static void post() throws Exception{
 	   
@@ -41,9 +81,9 @@ public class Setup {
    private static Connection createConnection() {
 	 try{
 	   String driver = "com.mysql.jdbc.Driver";
-	   String url = "jdbc:mysql://localhost:3306/gettysburgchambermusic?useSSL=false";
+	   String url = "jdbc:mysql://localhost/gettysburgchambermusic?useSSL=false";
 	   String username = "root";
-	   String password = "Jarv2013.";
+	   String password = "T201328t.";
 	   Class.forName(driver);
 	   Connection connection = DriverManager.getConnection(url,username,password);
 	   return connection;

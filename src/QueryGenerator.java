@@ -27,6 +27,7 @@ public class QueryGenerator {
 			return null;
 		}
 	}
+	
 	public ArrayList<ArrayList<String>> getDistinctColumn(String [] columns, String table)
 	{
 		String make = "SELECT DISTINCT ";
@@ -79,6 +80,48 @@ public class QueryGenerator {
 					make+= " AND " + conditionalColumn[i] + "='" + conditionalValue[i] + "'";
 				}
 			}
+             
+		try {
+			Statement state = con.createStatement();
+		  ResultSet rs = state.executeQuery(make);
+		  ArrayList<ArrayList<String>> distinctColumn = new ArrayList<ArrayList<String>>();
+		 
+		  while(rs.next())
+		  {
+			  ArrayList<String> entries = new ArrayList<String>();
+			  for(int i = 0; i< columns.length; i++)
+				{
+				  entries.add(rs.getString(columns[i]));
+				}
+			  distinctColumn.add(entries);
+		  }
+		  return distinctColumn;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public ArrayList<ArrayList<String>> getDistinctColumnWithConditionals(String [] columns, String [] conditionalColumn, String[] conditionalValue, String table, String conditionalConjunction)
+	{
+		String make = "SELECT DISTINCT ";
+		for(int i = 0; i< columns.length; i++)
+		{
+			if(i<columns.length-1)
+				make+= columns[i] + ", ";
+			else
+				make+= columns[i];
+		}
+			make+= " FROM " + table;
+			//add conditional
+			make+= " WHERE " + conditionalColumn[0] + "='" + conditionalValue[0] + "'"; 
+			if(conditionalColumn.length > 1)
+			{
+				for(int i = 1; i< conditionalColumn.length; i++)
+				{
+					make+= " " + conditionalConjunction + " " + conditionalColumn[i] + "='" + conditionalValue[i] + "'";
+				}
+			}
 		try {
 			Statement state = con.createStatement();
 		  ResultSet rs = state.executeQuery(make);
@@ -124,7 +167,7 @@ public class QueryGenerator {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ArrayList<ArrayList<String>> getTable(String table, int numColumns)
 	{
 		String make = "SELECT * FROM " + table;
